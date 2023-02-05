@@ -18,7 +18,7 @@ class LifetrackerApplicationTests {
 
 	@Test
 	public void secondTest() {
-		User user = new User(1,"ad","101.0","55");
+		User user = new User(1,"ad",55.2);
 		userMapper.insert(user);	
 	}
 

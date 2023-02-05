@@ -22,7 +22,7 @@ public class UserController {
    @GetMapping("/get")
    public String index() {
       
-      User user = userMapper.selectById(9);
+      User user = userMapper.selectById(12);
       System.out.println(user);
       return "user="+user;
    }
