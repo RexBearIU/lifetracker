@@ -18,8 +18,16 @@ class LifetrackerApplicationTests {
 
 	@Test
 	public void secondTest() {
-		User user = new User(1,"jacky",111.0);
+		User user = new User(1,"ad","101.0","55");
 		userMapper.insert(user);	
+	}
+
+	@Test
+	public void thirdTest() {
+
+		User user = userMapper.selectById(12);
+		System.out.println(user);
+
 	}
 
 }

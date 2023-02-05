@@ -2,13 +2,17 @@ package com.example.mapper;
 
 import java.util.List;
 
-// import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import com.example.bean.User;
 
 @Mapper
+@Repository
 public interface UserMapper {
 
     /**
@@ -19,13 +23,16 @@ public interface UserMapper {
     @Insert(INSERT_INTO_T_USER_VALUES)
     public int insert(User User);
 
-    // @Delete("delete from t_user where id=#{id}")
+    @Delete("delete from t_user.t_user where id =#{id}")
     public int delectById(String id);
 
+    @Update("UPDATE t_user.t_user set name = #{name}, daily_Calories#{dailyCalories} WHERE id = #{id}")
     public int update(User User);
 
-    public User selectById(String id);
+    @Select("select id, name, daily_calories from t_user.t_user where id =#{id}")
+    public User selectById(int id);
 
+    @Select("select * from t_user.t_user")
     public List<User> selectAll();
 
 }
