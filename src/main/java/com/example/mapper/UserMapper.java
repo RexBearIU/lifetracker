@@ -24,9 +24,9 @@ public interface UserMapper {
     public int insert(User User);
 
     @Delete("delete from t_user.t_user where id =#{id}")
-    public int delectById(String id);
+    public int delectById(int id);
 
-    @Update("UPDATE t_user.t_user set name = #{name}, daily_Calories#{dailyCalories} WHERE id = #{id}")
+    @Update("update t_user.t_user set name = #{name}, daily_Calories = #{dailyCalories} where id = #{id}")
     public int update(User User);
 
     @Select("select id, name, daily_calories from t_user.t_user where id =#{id}")

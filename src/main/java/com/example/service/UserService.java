@@ -1,17 +1,20 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
 
 import com.example.bean.User;
 
-@Service
+
 public interface UserService {
     
     /**
-     * @return
+     * @return user
      */
-    public User add(User user);
+    public boolean createUser(User user);
     
-    public User find(int id);
+    public User getUser(int id);
+
+    public boolean putUser(User user);
+
+    public boolean delectUser(int id); 
         
 }
