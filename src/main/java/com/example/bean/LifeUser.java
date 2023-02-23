@@ -3,24 +3,28 @@ package com.example.bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class User {
-    private int id;
+public class LifeUser {
+    
+    private Integer id;
     private String name;
+    private String password;
     private Double dailyCalories;
     
     
+
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", dailyCalories=" + dailyCalories + "]";
+        return "LifeUser [id=" + id + ", name=" + name + ", password=" + password + ", dailyCalories=" + dailyCalories
+                + "]";
     }
 
-    public User(int id, String name, Double dailyCalories) {
+    public LifeUser(int id, String name, Double dailyCalories) {
         this.id = id;
         this.name = name;
         this.dailyCalories = dailyCalories;
     }
 
-    public User() {
+    public LifeUser() {
     }
 
     public int getId() {
@@ -44,5 +48,11 @@ public class User {
         this.dailyCalories = dailyCalories;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

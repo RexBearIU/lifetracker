@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.example.bean.User;
+import com.example.bean.LifeUser;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 // import com.example.service.impl.UserServiceImpl;
@@ -27,14 +27,21 @@ class LifetrackerApplicationTests {
 
 	@Test
 	public void userMapperInsertTest() {
-		User user = new User(1,"ad",55.2);
+		LifeUser user = new LifeUser(1,"ad",55.2);
 		userMapper.insert(user);	
 	}
 
 	@Test
 	public void userMapperSelectByIdTest() {
 
-		User user = userMapper.selectById(12);
+		LifeUser user = userMapper.selectById(25);
+		System.out.println(user);
+
+	}
+	@Test
+	public void userMapperSelectByNameTest() {
+
+		LifeUser user = userMapper.selectByName("dadad");
 		System.out.println(user);
 
 	}
@@ -53,20 +60,20 @@ class LifetrackerApplicationTests {
     }
 	@Test
 	public void userServiceCreateTest() {
-		User user = new User(1,"caca",1263.5);
+		LifeUser user = new LifeUser(1,"caca",1263.5);
 		boolean createUser = userService.createUser(user);;	
 		System.out.println(createUser);
 	}
 	@Test
 	public void userServiceGetTest() {
 		
-		User user = userService.getUser(15);;
+		LifeUser user = userService.getUser(25);;
 		System.out.println(user);
 	}
 
 	@Test
 	public void userServicePutTest() {
-		User user = new User(50,"dadad",1263.5);
+		LifeUser user = new LifeUser(50,"dadad",1263.5);
 		boolean putUser = userService.putUser(user);;	
 		System.out.println(putUser);
 	}
