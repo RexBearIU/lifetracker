@@ -4,48 +4,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LifeUser {
-    
+
     private Integer id;
-    private String name;
+    private String username;
     private String password;
-    private Double dailyCalories;
+    private String email;
     
-    
-
-    @Override
-    public String toString() {
-        return "LifeUser [id=" + id + ", name=" + name + ", password=" + password + ", dailyCalories=" + dailyCalories
-                + "]";
-    }
-
-    public LifeUser(int id, String name, Double dailyCalories) {
-        this.id = id;
-        this.name = name;
-        this.dailyCalories = dailyCalories;
-    }
-
     public LifeUser() {
     }
+    
+    public LifeUser(Integer id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+
+    public void setId(Integer id) {
         this.id = id;
     }
+
     public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+        return username;
     }
 
-    public Double getDailyCalories() {
-        return dailyCalories;
-    }
-
-    public void setDailyCalories(Double dailyCalories) {
-        this.dailyCalories = dailyCalories;
+    public void setName(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -55,4 +43,19 @@ public class LifeUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "LifeUser [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
+    }
+
+
 }

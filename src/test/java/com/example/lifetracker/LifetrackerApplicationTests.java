@@ -1,6 +1,6 @@
 package com.example.lifetracker;
 
-
+import java.sql.Timestamp;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,23 +25,26 @@ class LifetrackerApplicationTests {
 	@Resource
 	private UserService userService;
 
+	@Resource
+	private PasswordEncoder passwordEncoder;
+
 	@Test
 	public void userMapperInsertTest() {
-		LifeUser user = new LifeUser(1,"ad",55.2);
+		LifeUser user = new LifeUser(1,"ad","1@1", passwordEncoder.encode("123"));
 		userMapper.insert(user);	
 	}
 
 	@Test
 	public void userMapperSelectByIdTest() {
 
-		LifeUser user = userMapper.selectById(25);
+		LifeUser user = userMapper.selectById(4);
 		System.out.println(user);
 
 	}
 	@Test
 	public void userMapperSelectByNameTest() {
 
-		LifeUser user = userMapper.selectByName("dadad");
+		LifeUser user = userMapper.selectByEmail("s");
 		System.out.println(user);
 
 	}
@@ -60,7 +63,7 @@ class LifetrackerApplicationTests {
     }
 	@Test
 	public void userServiceCreateTest() {
-		LifeUser user = new LifeUser(1,"caca",1263.5);
+		LifeUser user = new LifeUser(1,"caca","12635@ss",passwordEncoder.encode("123"));
 		boolean createUser = userService.createUser(user);;	
 		System.out.println(createUser);
 	}
@@ -73,8 +76,9 @@ class LifetrackerApplicationTests {
 
 	@Test
 	public void userServicePutTest() {
-		LifeUser user = new LifeUser(50,"dadad",1263.5);
-		boolean putUser = userService.putUser(user);;	
+		LifeUser user = new LifeUser(5,"caca","126x3yes@sss",passwordEncoder.encode("123"));
+		boolean putUser = userService.putUser(user);
+			
 		System.out.println(putUser);
 	}
 	@Test

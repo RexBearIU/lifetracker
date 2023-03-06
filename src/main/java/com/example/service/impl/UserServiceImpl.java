@@ -16,7 +16,7 @@ import com.example.service.UserService;
 import jakarta.annotation.Resource;
 
 @Service
-@Transactional(rollbackFor = RuntimeException.class)
+@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Resource
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean putUser(LifeUser user) {
         
         int update = userMapper.update(user);
-
+        
         if (update<1){
             return false;
         };
@@ -65,13 +65,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LifeUser user = userMapper.selectByName(username);
+    public UserDetails loadUserByUsername(String Email) throws UsernameNotFoundException {
+        LifeUser user = userMapper.selectByEmail(Email);
         if(user==null){
             throw new UsernameNotFoundException("用户名不存在");
         }
         // return new User(username,user.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
-        return new User(username,"{noop}"+"123", AuthorityUtils.commaSeparatedStringToAuthorityList("user,admin"));
+        return new User(user.getName(),"$2a$12$Q0fu74idNx4IOMUPbN3sNOsMxAfJIfC.UatH/orYKJiMJrrN4.T2u", AuthorityUtils.commaSeparatedStringToAuthorityList("user,admin"));
     }
 
     

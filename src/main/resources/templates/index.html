@@ -20,5 +20,9 @@
         <input type="password" name="password"/>
         <input type="submit" value="提交"/>
     </form>
+    <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+   <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+      <input hidden type="submit" value="Sign Out"/>
+   </form> 
 </body>
 </html>
