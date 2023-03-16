@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeTracker Login</title>
+    <title>LifeTracker Logout</title>
 </head>
 <body>
-    <h1>Hello <h1 th:text="${user.name}"></h1></h1>
-    <button th:text="${user.id}">login sucessful yes</button>
-    
 
-   <form name="logoutForm" th:action="@{/logout}" method="post" >
-      <input  type="submit" value="Sign Out"/>
-   </form> 
+    <div >
+        logout sucessful
+    </div>
+    
+    <a th:href="@{/user/login}">back to login page</a>      
+        
 </body>
 </html>

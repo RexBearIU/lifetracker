@@ -11,7 +11,7 @@ public interface UserService {
      */
     public boolean createUser(LifeUser user);
     
-    public LifeUser getUser(Integer id);
+    public LifeUser getUser(String email);
 
     public boolean putUser(LifeUser user);
 

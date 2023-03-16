@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .login-page {
-  width: 500px;
+  max-width: 500px;
   padding: 8% 0 0;
   margin: auto;
 }
@@ -11,7 +11,7 @@
   background: #FFFFFF;
   max-width: 500px;
   margin: 0 auto 100px;
-  padding: 45px;
+  padding: 35px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }

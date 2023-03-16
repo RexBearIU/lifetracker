@@ -25,8 +25,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public boolean createUser(LifeUser user) {
 
+        
+        LifeUser storedUser = userMapper.selectByEmail(user.getEmail());
+
+        if(storedUser!=null){
+            return false;
+        }
         int insert = userMapper.insert(user);
-      
     
         if (insert<1){
             return false;
@@ -35,9 +40,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public LifeUser getUser(Integer id) {
+    public LifeUser getUser(String email) {
         
-        LifeUser user = userMapper.selectById(id);
+        LifeUser user = userMapper.selectByEmail(email);
         
         return user;
     }
@@ -70,8 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(user==null){
             throw new UsernameNotFoundException("用户名不存在");
         }
-        // return new User(username,user.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
-        return new User(user.getName(),"$2a$12$Q0fu74idNx4IOMUPbN3sNOsMxAfJIfC.UatH/orYKJiMJrrN4.T2u", AuthorityUtils.commaSeparatedStringToAuthorityList("user,admin"));
+        return new User(user.getEmail(),user.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("user"));
     }
 
     

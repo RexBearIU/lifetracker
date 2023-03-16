@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.bean.LifeUser;
+import com.example.mapper.DietRecordMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 // import com.example.service.impl.UserServiceImpl;
@@ -27,10 +28,13 @@ class LifetrackerApplicationTests {
 
 	@Resource
 	private PasswordEncoder passwordEncoder;
+	
+	@Resource
+	private DietRecordMapper dietRecordMapper;
 
 	@Test
 	public void userMapperInsertTest() {
-		LifeUser user = new LifeUser(1,"ad","1@1", passwordEncoder.encode("123"));
+		LifeUser user = new LifeUser(null,"ad","100@1", passwordEncoder.encode("123"));
 		userMapper.insert(user);	
 	}
 
@@ -70,7 +74,7 @@ class LifetrackerApplicationTests {
 	@Test
 	public void userServiceGetTest() {
 		
-		LifeUser user = userService.getUser(25);;
+		LifeUser user = userService.getUser("12635@ss");;
 		System.out.println(user);
 	}
 
@@ -86,6 +90,11 @@ class LifetrackerApplicationTests {
 		
 		boolean delectUser = userService.delectUser(14);
 		System.out.println(delectUser);
+	}
+
+	@Test
+	public void name() {
+		
 	}
 
 }
