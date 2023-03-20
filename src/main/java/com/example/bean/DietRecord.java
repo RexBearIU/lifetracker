@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DietRecord {
+public class DietRecord implements Comparable<DietRecord> {
     private Integer dietRecordId;
     private Integer lifeUserId;
     private LocalDate date;
@@ -33,22 +33,22 @@ public class DietRecord {
     }
 
 
-    public int getDietRecordId() {
+    public Integer getDietRecordId() {
         return dietRecordId;
     }
 
 
-    public void setDietRecordId(int dietRecordId) {
+    public void setDietRecordId(Integer dietRecordId) {
         this.dietRecordId = dietRecordId;
     }
 
 
-    public int getLifeUserId() {
+    public Integer getLifeUserId() {
         return lifeUserId;
     }
 
 
-    public void setLifeUserId(int lifeUserId) {
+    public void setLifeUserId(Integer lifeUserId) {
         this.lifeUserId = lifeUserId;
     }
 
@@ -119,6 +119,15 @@ public class DietRecord {
                 + ", mealTime=" + mealTime + ", food=" + food + ", foodType=" + foodType + ", portion=" + portion
                 + ", calories=" + calories + "]";
     }
+
+
+    @Override
+    public int compareTo(DietRecord dietRecord) {
+        return this.getDate().compareTo(dietRecord.getDate());
+    }
+
+
+
     
   
     

@@ -1,7 +1,6 @@
 package com.example.mapper;
 
 import java.util.List;
-import java.sql.Timestamp;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.bean.LifeUser;
 
-import jakarta.annotation.Generated;
 
 @Mapper
 @Repository

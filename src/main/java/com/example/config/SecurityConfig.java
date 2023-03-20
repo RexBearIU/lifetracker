@@ -25,7 +25,7 @@ public class SecurityConfig {
 
         http.formLogin(form -> form
                 .loginPage("/user/login")
-                .successForwardUrl("/user/get")
+                .successForwardUrl("/dietRecord/get/sevenDays")
                 .permitAll())
                 .logout((logout) -> logout.deleteCookies("remove")
                         .permitAll())

@@ -1,6 +1,5 @@
 package com.example.lifetracker;
 
-import java.sql.Timestamp;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,7 +79,7 @@ class LifetrackerApplicationTests {
 
 	@Test
 	public void userServicePutTest() {
-		LifeUser user = new LifeUser(5,"caca","126x3yes@sss",passwordEncoder.encode("123"));
+		LifeUser user = new LifeUser(4,"test","test@test",passwordEncoder.encode("test"));
 		boolean putUser = userService.putUser(user);
 			
 		System.out.println(putUser);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -10,14 +10,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" th:href="@{/image/RexBearIU-Logo-1.ico}" type="image/x-icon">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <!-- navbar -->
-    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-between">
-        <div class="container fs-3">
+    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-between ">
+        <div class="container fs-3 border-bottom">
 
-            <a href="#" class="navbar-brand ">LifeTracker</a>
+            <a href="/dietRecord/get/sevenDays" class="navbar-brand ">LifeTracker</a>
 
 
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
@@ -52,10 +53,10 @@
                 </ul>
                 <ul class=" navbar-nav ms-auto ">
                     <li class="nav-item mx-auto">
-                        <a class="nav-link text-danger" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Log Out">
+                        <a class="nav-link text-danger"  data-bs-target="#logoutModal" data-bs-placement="bottom"
+                            title="Log Out" data-bs-toggle="modal">
                             <i class="bi bi-box-arrow-right"></i>
-                            &nbsp;<i class="collapse " id="collapsingNavbar">Log Out</i>
+                            <i class="collapse " id="collapsingNavbar">Log Out</i>
                         </a>
                     </li>
                 </ul>
@@ -65,42 +66,45 @@
     </nav>
     <!-- navbar -->
     <!-- Data Table Navbar-->
-    <div class="container">
+    <div class="container mt-3">
+        <div class="input-group col-md-5">
+            <form method="post" th:action="@{/dietRecord/search}">
 
-        <div class="input-group ">
-            <div class="form col-md-5">
-                <input id="search-input" type="search" placeholder="Search Food" class="form-control" />
-            </div>
-            <button type="button" class="btn btn-light">
-                <i class="bi bi-search"></i>
-            </button>
+                <div class="input-group ">
+                    <input id="search-input" type="search" placeholder="Search Food" class="form-control" name="food" />
+                    <button type="submit" class="btn btn-light input-group-text">
+                        <i class="bi bi-search"></i>
+                    </button>   
+                </div>
+            </form>
         </div>
-        <br>
-
-        <button type="button" class="btn btn-light dropdown-toggle ms-auto form col-md-5" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Choose your ideal range
-        </button>
-        <ul class="dropdown-menu">
-            <li><h6 class="dropdown-header">Please select a range</h6></li>
-            <li><a class="dropdown-item" href="#">past 7 days</a></li>
-            <li><a class="dropdown-item" href="#">past 1 month</a></li>
-            <li><a class="dropdown-item" href="#">past 6 months</a></li>
-            <li>
-                <hr class="dropdown-divider" />
-            </li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
-        </ul>
-
+        <div>
+            <button type="button" class="btn btn-light dropdown-toggle ms-auto mt-2 col-md-5" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Choose Time Range
+            </button>
+            <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">Please select a range</h6></li>
+                <li><a class="dropdown-item" th:href="@{/dietRecord/get/sevenDays}">past 7 days</a></li>
+                <li><a class="dropdown-item" th:href="@{/dietRecord/get/oneMonth}">past 1 month</a></li>
+                <li><a class="dropdown-item" th:href="@{/dietRecord/get/threeMonths}">past 3 months</a></li>
+                <li><a class="dropdown-item" th:href="@{/dietRecord/get/oneYear}">past 1 year</a></li>
+            </ul>
+        </div>
+        <form class="mt-2" th:object="${lifeUser}">
+            Hi <b class="lifeUserId" th:id="*{id}" th:text="*{Name}"></b>, these are your DietRecords in <b th:text="${period}"></b>       
+            <button type="button" class="btn btn-light  col-md-3 create">
+                <a title="Create" data-bs-target="#reviseModal" data-bs-placement="bottom"
+                                data-bs-toggle="modal">
+                    <i class="bi bi-journal-plus"></i> Create
+                </a>   
+            </button>
+        </form>
     </div>
-
-    <br>
     <!-- Data Table Navbar-->
     <!-- Data Table -->
 
-    <div class="container table-responsive">
-        This is your DietRecords in <b>past 7 days</b>
-        <br><br>
+    <div class="container table-responsive mt-3 ">       
         <table class="table rounded overflow-hidden text-center bg-white text-nowrap table-hover  ">
 
             <thead class="bg-light">
@@ -108,57 +112,28 @@
                     <th>Date</th>
                     <th>Meal time</th>
                     <th>Food</th>
-                    <th>Food type</th>
+                    <th>Food Content</th>
                     <th>Portion</th>
                     <th>Calories</th>
                     <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr th:each="dietRecords:${dietRecords}" th:id="${dietRecords.dietRecordId}">
+                    <td class="fw-bold " th:text="${dietRecords.date}"></td>
+                    <td th:text="${dietRecords.mealTime}"></td>
+                    <td class="fw-bold " th:text="${dietRecords.food}"></td>
+                    <td th:text="${dietRecords.foodType}"></td>
+                    <td th:text="${dietRecords.portion}"></td>
+                    <td><b th:text="${dietRecords.calories}"></b> Kcal</td>
                     <td>
-                        <p class="fw-bold ">2023/3/6</p>
-                        <!-- <div class="d-flex align-items-center">
-                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
-                                style="width: 45px; height: 45px" class="rounded-circle" />
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1 ">Bubble Milk Tea</p>
-                            </div>
-                        </div> -->
-                    </td>
-                    <td>
-                        <p class="fw-normal">Breakfast</p>
-                    </td>
-                    <td>
-                        <div class="d-flex ">
-                            <div>
-                                <p class="fw-bold mb-1">Bubble Milk Tea</p>
-                                <p class="text-muted mb-0">(<b class="fw-normal">Bubble, Milk, Tea</b>)</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class=" ">Beverage</p>
-                    </td>
-                    <td>
-                        <div class="d-flex ">
-                            <div>
-                                <p class="fw-bold mb-1">1 Cup</p>
-                                <p class="text-muted mb-0">(<b class="fw-normal">700 c.c</b>)</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <b class=" ">500</b>&nbsp;Kcal
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-rounded">
+                        <button type="button" class="btn btn-rounded edit-row">
                             <a href="#" title="Revise" data-bs-target="#reviseModal" data-bs-placement="bottom"
                                 data-bs-toggle="modal">
                                 <i class="bi bi-gear"></i>
                             </a>
                         </button>
-                        <button type="button" class="btn  btn-rounded">
+                        <button type="button" class="btn  btn-rounded delete-row">
                             <a href="#" title="Delete" data-bs-target="#deleteModal" data-bs-placement="bottom"
                                 data-bs-toggle="modal">
                                 <i class="bi bi-trash3"></i>
@@ -216,74 +191,57 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    Revise the record!
+                    Record Detail 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3 needs-validation" novalidate>
+                    <form class="row g-3 needs-validation" id="recordForm" th:object="${dietRecord}" th:action="@{/dietRecord/update}" method="post" novalidate>
+                        <input type="hidden" th:field="*{dietRecordId}" >
+                        <input type="hidden" th:value="${lifeUser.getId()}" th:field="*{lifeUserId}">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="date" class="form-control" id="validationCustom01" value="2023-03-06"
-                                    required />
-                                <label for="validationCustom01" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="validationDate" th:field="*{date}" required />
+                                <label for="validationDate" class="form-label">Date</label>
                                 <div class="invalid-feedback">Please fill the date </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustom02" value="Breakfast"
-                                    required />
-                                <label for="validationCustom02" class="form-label">Meal time</label>
+                            <div class="form-floating ">
+                                <select class="form-control form-select" id="validationMealTime" th:field="*{mealTime}" required>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Brunch">Brunch</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Snack">Snack</option>
+                                </select>
+                                <label for="validationMealTime" class="form-label">Meal time</label>
                                 <div class="invalid-feedback">Please fill the meal time </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustomFood"
-                                    value="Bubble Milk Tea" required />
-                                <label for="validationCustomFood" class="form-label">Food</label>
+                                <input type="text" class="form-control" id="validationFood" th:field="*{food}"  required />
+                                <label for="validationFood" class="form-label">Food</label>
                                 <div class="invalid-feedback">Please fill the food </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustomFoodContent"
-                                    value="Bubble, Milk, Tea" />
-                                <label for="validationCustomFoodContent" class="form-label">Food Content</label>
+                                <input type="text" class="form-control" id="validationFoodContent" th:field="*{foodType}" />
+                                <label for="validationFoodContent" class="form-label">Food Content</label>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustomFoodType" value="Beverage"
-                                    required />
-                                <label for="validationCustomFoodType" class="form-label">Food type</label>
-                                <div class="invalid-feedback">Please provide a food type</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustomPortion" value="1 Cup" />
-                                <label for="validationCustomPortion" class="form-label">Portion</label>
-                            </div>
-                        </div>
+                        </div>                        
                         <div class="col-md-5">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="validationCustomPortionDetail"
-                                    value="700 c.c" />
-                                <label for="validationCustomPortionDetail" class="form-label">Portion detail</label>
+                                <input type="text" class="form-control" id="validationPortion" th:field="*{portion}" />
+                                <label for="validationPortion" class="form-label">Portion</label>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <div class="input-group form-floating">
-                                <input type="text" class="form-control" id="validationCustomCalories" value="700" />
+                                <input type="text" class="form-control" id="validationCalories" th:field="*{calories}" />
                                 <span class="input-group-text">Kcal</span>
-                                <label for="validationCustomCalories" class="form-label">Calories</label>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="input-group form-floating">
-                                <input type="text" class="form-control" id="validationCustomPrice" value="50" />
-                                <label for="validationCustomPrice" class="form-label">Price</label>
+                                <label for="validationCalories" class="form-label">Calories</label>
                             </div>
                         </div>
                         <div class="col-md-3 ms-auto">
@@ -308,11 +266,11 @@
                 </div>
                 <div class="modal-body">
                     <p>Do you really want to delete the data ?</p>
-
                 </div>
                 <div class="modal-footer">
-                    <form method="post">
-                        <button class="btn" data-bs-dismiss="modal" aria-hidden="true" type="submit">Yes</button>
+                    <form method="post" th:action="@{/dietRecord/delete}">
+                        <input type="hidden" name="deleteId">
+                        <button class="btn" aria-hidden="true" type="submit">Yes</button>
                     </form>
                     <button class="btn" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
@@ -320,38 +278,32 @@
         </div>
     </div>
     <!-- Delete Modal-->
+    <!-- Logout Modal-->
+    <div id="logoutModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="myModalLabel">Comfirm</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to Log out ?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn" aria-hidden="true" type="submit">Yes</button>
+                    </form>
+                    <button class="btn" data-bs-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal-->
 
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
         crossorigin="anonymous"></script>
-    <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"],[data-bs-toggle="modal"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    </script>
-    <script>
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (() => {
-                'use strict';
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                const forms = document.querySelectorAll('.needs-validation');
-
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms).forEach((form) => {
-                    form.addEventListener('submit', (event) => {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated')
-                        form.button.classList.add('[data-bs-dismiss="modal"]');
-                    }, false);
-                });
-            })();
-    </script>
+    <script th:src="@{/js/dietRecordscript.js}"></script> 
 </body>
-
 </html>
